@@ -43,11 +43,39 @@ app.get('/posts', (req, res) => {
 		.catch(err => console.error(err));
 });
 
+// Making sure authentication has been granted
+const FBAuth = (req, res, next) => {
+	let idToken;
+	if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+		idToken = req.headers.authorization.split('Bearer ')[1];
+	}
+	else {
+		return res.status(403).json({ error: 'Unauthorized'});
+	}
+
+	admin.auth().verifyIdToken(idToken)
+		.then(decodedToken => {
+			req.user = decodedToken;
+			return db.collection('users')
+				.where('userId', '==', req.user.uid)
+				.limit(1)
+				.get();
+		})
+		.then(data => {
+			req.user.handle = data.docs[0].data().handle;
+			return next(); // allows request to proceed
+		})
+		.catch(err => {
+			console.error('Error while verifying token', err);
+			return res.status(403).json(err);
+		})
+}
+
 // Create post
-app.post('/post', (req, res) => {
+app.post('/post', FBAuth, (req, res) => {
 	const newPost = {
 		body: req.body.body,
-		user: req.body.userHandle,
+		user: req.user.handle,
 		createdAt: new Date().toISOString()
 	};
 
