@@ -61,6 +61,19 @@ app.post('/post', (req, res) => {
 		})
 });
 
+// signup validation
+const isEmpty = (string) => {
+	if(string.trim() === '') return true;
+	return false;
+}
+
+const isEmail = (email) => {
+	// Regular expression that verifies for pattern of an email
+	const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if(email.match(regEx)) return true;
+	return false;
+}
+
 // Sign up route
 app.post('/signup', (req, res) => {
 	const newUser = {
@@ -69,6 +82,20 @@ app.post('/signup', (req, res) => {
 		confirmPassword: req.body.confirmPassword,
 		handle: req.body.handle
 	};
+
+	let errors = {};
+
+	if(isEmpty(newUser.email)) {
+		errors.email = 'Must not be empty';
+	} else if(!isEmail(newUser.email)) {
+		errors.email = 'Must be valid email address';
+	}
+
+	if(isEmpty(newUser.password)) errors.password = 'Must not be empty';
+	if(newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Passwords must match';
+	if(isEmpty(newUser.handle)) errors.handle = 'Must not be empty';
+
+	if(Object.keys(errors).length > 0) return res.status(400).json(errors);
 
 	// Validate user
 	let token, userId;
@@ -102,6 +129,38 @@ app.post('/signup', (req, res) => {
 			}
 			return res.status(500).json({ error: err.code});
 		})
+})
+
+// Login
+app.post('/login', (req, res) => {
+	const user = {
+		email: req.body.email,
+		password: req.body.password
+	};
+
+	let errors = {};
+
+	if(isEmpty(user.email)) errors.email = 'Must not be empty';
+	if(isEmpty(user.password)) errors.password = 'Must not be empty';
+	
+	if(Object.keys(errors).length > 0) return res.status(400).json(errors);
+
+	// log user in
+	firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+		.then(data => {
+			return data.user.getIdToken();
+		})
+		.then(token => {
+			return res.json({ token });
+		})
+		.catch(err => {
+			console.error(err);
+			if(err.code === 'auth/wrong-password') {
+				return res.status(403).json({ general: "wrong credentials, please try again"});
+			}
+			return res.status(500).json({error: err.code});
+		})
+
 })
 
 exports.api = functions.https.onRequest(app);
