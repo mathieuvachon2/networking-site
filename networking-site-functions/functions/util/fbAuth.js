@@ -1,4 +1,4 @@
-const { admin } = require('./admin');
+const { admin, db } = require('./admin');
 
 // Making sure authentication has been granted
 module.exports = (req, res, next) => {
