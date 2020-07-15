@@ -34,7 +34,7 @@ exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
 	.onCreate((snapshot) => {
 		return db.doc(`/posts/${snapshot.data().postId}`).get()
 			.then(doc => {
-				if(doc.exists) {
+				if(doc.exists && doc.data().userHandle !== snapshot.data().userHandle) {
 					return db.doc(`/notifications/${snapshot.id}`).set({
 						createdAt: new Date().toISOString(),
 						recipient: doc.data().userHandle,
@@ -44,9 +44,6 @@ exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
 						postId: doc.id
 					});
 				}
-			})
-			.then(() => {
-				return;
 			})
 			.catch(err => {
 				console.error(err);
@@ -58,9 +55,6 @@ exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
 		.onDelete((snapshot) => {
 			return db.doc(`/notifications/${snapshot.id}`)
 				.delete()
-				.then(() => {
-					return;
-				})
 				.catch(err => {
 					console.error(err);
 					return;
@@ -71,7 +65,7 @@ exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
 		.onCreate((snapshot) => {
 			return db.doc(`/posts/${snapshot.data().postId}`).get()
 			.then(doc => {
-				if(doc.exists) {
+				if(doc.exists && doc.data().userHandle !== snapshot.data().userHandle) {
 					return db.doc(`/notifications/${snapshot.id}`).set({
 						createdAt: new Date().toISOString(),
 						recipient: doc.data().userHandle,
@@ -82,11 +76,51 @@ exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
 					});
 				}
 			})
-			.then(() => {
-				return;
-			})
 			.catch(err => {
 				console.error(err);
 				return;
 			})
 	});
+
+	// If user Image is modified, make sure to update it on all posts
+	exports.onUserImageChange = functions.firestore.document('/users/{userId}')
+		.onUpdate((change) => {
+			if(change.before.data().imageUrl !== change.after.data().imageUrl) {
+				const batch = db.batch();
+				return db.collection('posts').where('userHandle', '==', change.before.data().handle).get()
+					.then(data => {
+						data.forEach(doc => {
+							const post = db.doc(`posts/${doc.id}`);
+							batch.update(post, { userImage: change.after.data().imageUrl });
+						})
+						return batch.commit();
+					})
+			} else return true;
+	});
+
+	// On delete of a post, make sure to remove related notifications, likes and comments
+	exports.onPostDelete = functions.firestore.document('/posts/{postID}')
+		.onDelete((snapshot, context) => { // need context as it has parameters in URL
+			const postId = context.params.postID;
+			const batch = db.batch();
+			return db.collection('comments').where('postId', '==', postId).get()
+				.then(data => {
+					data.forEach(doc => {
+						batch.delete(db.doc(`comments/${doc.id}`));
+					});
+					return db.collection('likes').where('postId', '==', postId).get()
+						.then(data => {
+							data.forEach(doc => {
+								batch.delete(db.doc(`posts/${doc.id}`));
+							});
+							return db.collection('notifications').where('postId', '==', postId).get()
+								.then(data => {
+									data.forEach(doc => {
+										batch.delete(db.doc(`notifications/${doc.id}`));
+									});
+									return batch.commit();
+								})
+						})
+				})
+				.catch(err => console.error(err));
+		})
