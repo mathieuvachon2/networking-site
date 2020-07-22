@@ -21,7 +21,7 @@ class home extends Component {
 
     render() {
 			let recentPostsMarkup = this.state.posts ? (
-				this.state.posts.map(post => <Post post={post}/>	)
+				this.state.posts.map(post => <Post key={post.postID} post={post}/>	)
 			) : <p>Loading...</p>
         return (
             <Grid container spacing={16}>
