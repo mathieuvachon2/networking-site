@@ -12,12 +12,12 @@ class home extends Component {
     // Get the posts from the Server
     componentDidMount(){
         axios.get('/posts')
-          .then(res => {
-						this.setState({
-							posts: res.data
-						})
-					})
-					.catch(err => console.log(err));
+            .then(res => {
+                this.setState({
+                    posts: res.data
+                })
+            })
+            .catch(err => console.log(err));
     }
 
     render() {

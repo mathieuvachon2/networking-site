@@ -57,6 +57,16 @@ export const uploadImage = (formData) => (dispatch) => {
 			dispatch(getUserData());
 		})
 		.catch(err => console.log(err));
+};
+
+// Editing info on User like Bio, Website...
+export const editUserDetails = (userDetails) => (dispatch) => {
+	dispatch({ type: LOADING_USER });
+	axios.post('/user', userDetails)
+		.then(() => {
+			dispatch(getUserData());
+		})
+		.catch(err => console.log(err));
 }
 
 // Action for logging out
@@ -64,7 +74,7 @@ export const logoutUser = () => (dispatch) => {
 	localStorage.removeItem('FBIdToken');
 	delete axios.defaults.headers.common['Authorization']; // Remove Header from Axios
 	dispatch({ type: SET_UNAUTHENTICATED });
-}
+};
 
 const setAuthorizationHeader = (token) => {
 	const FBIdToken = `Bearer ${token}`;
