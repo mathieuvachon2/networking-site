@@ -41,15 +41,9 @@ class Post extends Component {
     };
     likePost = () => {
         this.props.likePost(this.props.post.postID)
-
-        // Temporary Hack for LikeCount bug
-        this.props.post.likeCount++;
     };
     unlikePost = () => {
         this.props.unlikePost(this.props.post.postID)
-
-        // Temporary Hack for LikeCount bug
-        this.props.post.likeCount--;
     };
     render() {
         // To format date when post was made
