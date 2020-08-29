@@ -94,38 +94,38 @@ class login extends Component {
                             type="email" 
                             label="Email" 
                             className={classes.textField}
-														helperText={errors.email} 
-														error={errors.email ? true : false}
+                            helperText={errors.email} 
+                            error={errors.email ? true : false}
                             value={this.state.email} 
                             onChange={this.handleChange} 
                             fullWidth/>                    
                         <TextField 
                             id="password" 
-														name="password" 
-														type="password" 
-														label="Password" 
-														className={classes.textField}
-														helperText={errors.password} 
-														error={errors.password ? true : false}
-														value={this.state.password} 
-														onChange={this.handleChange} 
-														fullWidth/>
+                            name="password" 
+                            type="password" 
+                            label="Password" 
+                            className={classes.textField}
+                            helperText={errors.password} 
+                            error={errors.password ? true : false}
+                            value={this.state.password} 
+                            onChange={this.handleChange} 
+                            fullWidth/>
 
-												{errors.general && (
-													<Typography variant="body2" className={classes.customError}>
-														{errors.general}
-													</Typography>
-												)}                    
+                            {errors.general && (
+                                <Typography variant="body2" className={classes.customError}>
+                                    {errors.general}
+                                </Typography>
+                            )}                    
                         <Button type="submit" variant="contained" color="primary" disabled={loading} className={classes.button}>
                             Login
-														{loading && (
-															<CircularProgress size={30} className={classes.progress}/>
-														)}
+                            {loading && (
+                                <CircularProgress size={30} className={classes.progress}/>
+                            )}
                         </Button>
-												<br/>
-												<small>
-													Don't have an account ? Sign up <Link to="/signup">here</Link>
-												</small>
+                        <br/>
+                        <small>
+                            Don't have an account ? Sign up <Link to="/signup">here</Link>
+                        </small>
                     </form>
                 </Grid>
                 <Grid item sm/>
