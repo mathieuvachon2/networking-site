@@ -1,4 +1,4 @@
-import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, SET_POST } from '../types';
+import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, SET_POST, DELETE_POST } from '../types';
 
 const initialState = {
     posts: [],
@@ -27,6 +27,14 @@ export default function(state = initialState, action) {
             state.posts[index] = action.payload; 
             return {
                 ...state,
+            }
+        // TODO issue with delete
+        case DELETE_POST:
+            console.log("post: " + state.posts[1].postID + " and second " + action.payload)
+            index = state.posts.findIndex((post) => post.postID === action.payload);
+            state.posts.splice(index, 1);
+            return {
+                ...state
             }
         default:
             return state;
