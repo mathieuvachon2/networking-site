@@ -20,7 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
-    ...theme,
+    ...theme.spreadIt,
     submitButton: {
         position: 'relative'
     },
@@ -56,7 +56,7 @@ class MakePost extends Component {
         this.setState({ open: true })
     };
     handleClose = () => {
-        this.setState({ open: false })
+        this.setState({ open: false, errors: {} })
     };
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })

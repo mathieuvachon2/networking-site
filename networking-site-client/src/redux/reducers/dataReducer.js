@@ -31,12 +31,14 @@ export default function(state = initialState, action) {
         // TODO issue with delete
         case DELETE_POST:
             console.log("post: " + state.posts[1].postID + " and second " + action.payload)
-            index = state.posts.findIndex((post) => post.postID === action.payload);
-            state.posts.splice(index, 1);
+            let indexToDelete = state.posts.findIndex((post) => post.postID === action.payload);
+            state.posts.splice(indexToDelete, 1);
             return {
                 ...state
             }
         case MAKE_POST:
+            // Rename Key to what Post Object expects
+            action.payload = JSON.parse(JSON.stringify(action.payload).split('"postId":').join('"postID":'));
             return {
                 ...state,
                 posts: [

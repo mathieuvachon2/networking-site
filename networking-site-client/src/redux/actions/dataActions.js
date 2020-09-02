@@ -45,6 +45,7 @@ export const unlikePost = (postId) => dispatch => {
 
 // Delete a Post
 export const deletePost = (postId) => dispatch => {
+    console.log("postID is: " + postId)
     axios.delete(`/post/${postId}`)
         .then(() => {
             dispatch({ type: DELETE_POST, payload: postId })
@@ -53,7 +54,7 @@ export const deletePost = (postId) => dispatch => {
 };
 
 // Make a Post
-export const makePost = (newPost) => (dispatch) => {
+export const makePost = (newPost) => dispatch => {
     dispatch({ type: LOADING_UI })
     axios.post('/post', newPost)
         .then(res => {

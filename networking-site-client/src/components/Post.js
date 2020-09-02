@@ -74,7 +74,7 @@ class Post extends Component {
             )
         )
         const deleteButton = authenticated && userHandle === handle ? (
-            <DeletePost postId={postID}/>
+            <DeletePost postID={postID}/>
         ) : null
         return (
             <Card className={classes.card}>

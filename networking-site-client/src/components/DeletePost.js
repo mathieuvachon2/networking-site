@@ -32,7 +32,7 @@ class DeletePost extends Component {
         this.setState({ open: false });
     };
     deletePost = () => {
-        this.props.deletePost(this.props.postId);
+        this.props.deletePost(this.props.postID);
         this.setState({ open: false });
     }
     render() {
@@ -70,7 +70,7 @@ class DeletePost extends Component {
 DeletePost.propTypes = {
     deletePost: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    postId: PropTypes.string.isRequired
+    postID: PropTypes.string.isRequired
 }
 
 export default connect(null, { deletePost })(withStyles(styles)(DeletePost))
