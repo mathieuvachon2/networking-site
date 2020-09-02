@@ -5,7 +5,7 @@ import MyButton from '../util/MyButton';
 
 // Redux stuff
 import { connect } from 'react-redux';
-import { makePost } from '../redux/actions/dataActions';
+import { makePost, clearErrors } from '../redux/actions/dataActions';
 
 // Material UI stuff
 import Button from '@material-ui/core/Button';
@@ -15,22 +15,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 //Icons
-import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
     ...theme.spreadIt,
     submitButton: {
-        position: 'relative'
+        position: 'relative',
+        float: 'right',
+        marginTop: 10
     },
     progressSpinner: {
         position: 'absolute'
     },
     closeButton: {
         position: 'absolute',
-        left: '90%',
-        top: '10%'
+        left: '91%',
+        top: '6%'
     }
 })
 
@@ -48,14 +49,14 @@ class MakePost extends Component {
             });
         }
         if(!nextProps.UI.errors && !nextProps.UI.loading) {
-            this.setState({ body: ''});
-            this.handleClose();
+            this.setState({ body: '', open: false, errors: {} });
         }
     }
     handleOpen = () => {
         this.setState({ open: true })
     };
     handleClose = () => {
+        this.props.clearErrors()
         this.setState({ open: false, errors: {} })
     };
     handleChange = (event) => {
@@ -114,6 +115,7 @@ class MakePost extends Component {
 
 MakePost.propTypes = {
     makePost: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired
 };
 
@@ -121,4 +123,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 })
 
-export default connect(mapStateToProps, { makePost })(withStyles(styles)(MakePost))
+export default connect(mapStateToProps, { makePost, clearErrors })(withStyles(styles)(MakePost))

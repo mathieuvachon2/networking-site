@@ -19,6 +19,12 @@ export default function(state = initialState, action) {
                 posts: action.payload,
                 loading: false
             }
+        case SET_POST: 
+            return {
+                ...state,
+                post: action.payload
+            }
+        
         case LIKE_POST:
         case UNLIKE_POST:
             let index = state.posts.findIndex((post) => post.postID === action.payload.postId);
