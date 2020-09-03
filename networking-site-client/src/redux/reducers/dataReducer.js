@@ -30,7 +30,11 @@ export default function(state = initialState, action) {
             let index = state.posts.findIndex((post) => post.postID === action.payload.postId);
             // Rename Key to what Post Object expects
             action.payload = JSON.parse(JSON.stringify(action.payload).split('"postId":').join('"postID":'));
+
             state.posts[index] = action.payload; 
+            if(state.post.postID === action.payload.postID) {
+                state.post = action.payload;
+            }
             return {
                 ...state,
             }
