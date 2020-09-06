@@ -105,6 +105,24 @@ export const makePost = (newPost) => dispatch => {
         })
 };
 
+// Get Data on the User that is getting viewed
+export const getUserData = (userHandle) => dispatch => {
+    dispatch({ type: LOADING_DATA });
+    axios.get(`/user/${userHandle}`)
+        .then(res => {
+            dispatch({
+                type: SET_POSTS,
+                payload: res.data.posts
+            });
+        })
+        .catch(() => {
+            dispatch({
+                type: SET_POSTS,
+                payload: null
+            })
+        });
+} 
+
 // Clear Errors so they do not carry over to next action
 export const clearErrors = () => dispatch => {
     dispatch({ type: CLEAR_ERRORS });
