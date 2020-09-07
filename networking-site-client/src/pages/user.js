@@ -10,10 +10,14 @@ import { getUserData } from '../redux/actions/dataActions';
 
 class user extends Component {
     state = {
-        profile: null
+        profile: null,
+        postIDParam: null
     }
     componentDidMount() {
         const handle = this.props.match.params.handle;
+        const postID = this.props.match.params.postID;
+
+        if(postID) this.setState({ postIDParam: postID });
         this.props.getUserData(handle);
         axios.get(`/user/${handle}`)
             .then(res => {
@@ -25,13 +29,20 @@ class user extends Component {
     }
     render() {
         const { posts, loading } = this.props.data;
+        const { postIDParam } = this.state
 
         const postsMarkup = loading ? (
             <p>Loading Data...</p>
         ) : posts === null ? (
             <p>No posts from this user</p>
-        ) : (
+        ) : !postIDParam ? (
             posts.map(post => <Post key={post.postID} post={post}/>)
+        ) : (
+            posts.map(post => {
+                if(post.postID !== postIDParam)
+                    return <Post key={post.postID} post={post}/>
+                else return <Post key={post.postID} post={post} openDialog/>
+            })
         )
 
         return (

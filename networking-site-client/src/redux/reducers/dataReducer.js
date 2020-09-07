@@ -14,6 +14,7 @@ export default function(state = initialState, action) {
                 loading: true
             }
         case SET_POSTS: 
+            action.payload = JSON.parse(JSON.stringify(action.payload).split('"postId":').join('"postID":'));
             return {
                 ...state,
                 posts: action.payload,
