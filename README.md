@@ -7,3 +7,23 @@ REST API server with Node.js and hosted on the Cloud using Firebase.
 To Sign Up, use any email (does not have to be a valid existing email, so test@email.com would work).
 
 Use the following Firebase Link to access the Social Media Website: https://socialmediaapp-c10ad.firebaseapp.com/
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+<br/>
+
+
+Here are some Snapshots of the website: 
+
+![Login](/screenshots/login.PNG)
+
+<br/>
+
+![Sign Up](/screenshots/signup.PNG)
+
+<br/>
+
+![Post Details](/screenshots/PostDetails.PNG)
+
+
