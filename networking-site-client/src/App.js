@@ -27,6 +27,9 @@ import axios from 'axios';
 
 const theme = createMuiTheme(themeFile);
 
+// So that it does not default always to Local Machine
+axios.defaults.baseURL = "https://us-central1-socialmediaapp-c10ad.cloudfunctions.net/api"
+
 // Access Auth Token
 const token = localStorage.FBIdToken;
 if(token) {
