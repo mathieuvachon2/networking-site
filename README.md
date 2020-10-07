@@ -4,7 +4,7 @@ Full stack Social media website that has authentication and signup/login logic, 
 
 REST API server with Node.js and hosted on the Cloud using Firebase.
 
-To Sign Up, use any email (does not have to be a valid existing email, so test@email.com would work).
+To Sign Up, use any email (does not have to be a valid existing email, so test@email.com would work), and any password longer than 4 characters.
 
 Use the following Firebase Link to access the Social Media Website: https://socialmediaapp-c10ad.firebaseapp.com/
 
