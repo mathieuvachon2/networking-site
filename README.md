@@ -24,6 +24,14 @@ Here are some Snapshots of the website:
 
 <br/>
 
+![home](/screenshots/home.PNG)
+
+<br/>
+
+![Notifications](/screenshots/Notifications.PNG)
+
+<br/>
+
 ![Post Details](/screenshots/PostDetails.PNG)
 
 
