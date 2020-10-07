@@ -16,21 +16,29 @@ Use the following Firebase Link to access the Social Media Website: https://soci
 
 Here are some Snapshots of the website: 
 
+<b>Login Page
 ![Login](/screenshots/login.PNG)
 
 <br/>
 
+<b> Sign Up Page
 ![Sign Up](/screenshots/signup.PNG)
 
 <br/>
+
+<b>Home Page with some posts
 
 ![home](/screenshots/home.PNG)
 
 <br/>
 
+<b>Notifications
+
 ![Notifications](/screenshots/Notifications.PNG)
 
 <br/>
+
+<b>Details of a Post
 
 ![Post Details](/screenshots/PostDetails.PNG)
 
