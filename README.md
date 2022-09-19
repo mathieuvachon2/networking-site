@@ -9,7 +9,7 @@ To Sign Up, use any email (does not have to be a valid existing email, so test@e
 Use the following Firebase Link to access the Social Media Website: https://socialmediaapp-c10ad.firebaseapp.com/
 
 
----------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
 
 <br/>
 
